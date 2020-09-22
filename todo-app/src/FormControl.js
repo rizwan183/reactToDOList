@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Button } from '@material-ui/core';
-function App() {
+import { Button ,FormControl,InputLabel,Input} from '@material-ui/core';
+function FormControl1() {
 
   const [todos,setTodos] = useState([1,2,3,4,5,6,7,8,9,10]); 
   const [input,setInput] = useState("");
@@ -20,7 +20,10 @@ function App() {
       <h1> Hello World </h1>
 
       <form>
-          <input value={input} onChange={event => setInput(event.target.value)}/>
+      		<FormControl>
+				  <InputLabel htmlFor="my-input">Write Your Todo</InputLabel>
+				  <Input value={input} onChange={event => setInput(event.target.value)} />
+			</FormControl>
           <Button disabled={!input} type='submit' onClick={addTodo} variant="contained" color="primary">
               Add To-Do
           </Button>
@@ -41,5 +44,4 @@ function App() {
     </div>
   );
 }
-
-export default App;
+export default FormControl1;
