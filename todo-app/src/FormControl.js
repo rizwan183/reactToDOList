@@ -1,17 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import logo from './logo.svg';
+import './ToDo.css'
 import './App.css';
-import { Button ,FormControl,InputLabel,Input} from '@material-ui/core';
+import ToDo from './ToDo';
+import db from './firebase';
+import firebase from './firebase';
+import { Button ,FormControl,InputLabel,Input, List, ListItem, ListItemAvatar, ListItemText} from '@material-ui/core';
 function FormControl1() {
 
-  const [todos,setTodos] = useState([1,2,3,4,5,6,7,8,9,10]); 
+  const [todos,setTodos] = useState([]); 
   const [input,setInput] = useState("");
+
+  useEffect(() => {
+    // this code loads when then this script loads
+    db.collection('todos').onSnapshot(snapshot =>{
+      console.log(snapshot.docs.map(doc => doc.data()))
+      setTodos(snapshot.docs.map(doc => ({id:doc.id,todo:doc.data().todo})))
+    })
+  }, [])
 
   const addTodo = (event) =>{
 
       event.preventDefault(); //will stop refresh
-      setTodos([...todos,input]);
-      console.log('i m working')
+
+      //firebasestorage
+      db.collection('todos').add({
+        todo:input
+      })
+      //localstorage
+      // setTodos([...todos,input]);
+      // console.log('i m working')
       setInput('')// clearing inputs
   }
 
@@ -37,7 +55,16 @@ function FormControl1() {
     */}
       <ul>
         {todos.map(todo => (
-            <li> {todo} </li>
+        //{/*<li>{todo}</li>*/},
+          <List className='todo_list'>
+            <ListItem>
+              <ListItemAvatar>
+              </ListItemAvatar>
+              <ListItemText primary={todo.todo} secondary='test data'/>
+            </ListItem>
+            <Button onClick={event=>db.collection('todos').doc(todo.id).delete()}> Delete </Button>
+          </List>
+
           ))}
       </ul>
 

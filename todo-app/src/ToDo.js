@@ -1,11 +1,12 @@
 import React from 'react';
 
-function Todo (){
+function ToDo(props){
 	return(
 			<div>
-
+				<li>a</li>
+				<li>{props.test}</li>
 			</div>
-		)
+		);
 }
 
-export default Todo;
+export default ToDo;
